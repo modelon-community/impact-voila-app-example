@@ -1,2 +1,5 @@
 # Ignore experiment definitions
 /Resources/ExperimentDefinitions/
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
