@@ -3,31 +3,38 @@ from urllib.parse import parse_qs
 from time import sleep
 
 import ipywidgets as widgets
-import pandas as pd
 
 import plotly.graph_objects as go
 from modelon.impact.client import Client
 
+
 def get_query_param(param, fallback):
-    query_string = os.environ.get('QUERY_STRING', '')
+    query_string = os.environ.get("QUERY_STRING", "")
     parameters = parse_qs(query_string)
     return parameters.get(param, [fallback])[0]
+
+
+default_workspace = "impactvoilaappexample"
+default_model = "ElectricRange.Experiments.Range2"
+
 
 class VoilaGUI:
     def __init__(self):
         self.client = Client()
-        self.workspace = self.client.get_workspace(get_query_param("workspaceid", "impactvoilaappexample"))
-        self.model = self.workspace.get_model(get_query_param("model", "ElectricRange.Experiments.Range2"))
-        self.dynamic = self.workspace.get_custom_function('dynamic')
-        
+        self.workspace = self.client.get_workspace(
+            get_query_param("workspaceid", default_workspace)
+        )
+        self.model = self.workspace.get_model(get_query_param("model", default_model))
+        self.dynamic = self.workspace.get_custom_function("dynamic")
+
         self.batteries = [
             ("Battery A", ".ElectricRange.Batteries.BatteryA"),
             ("Battery B", ".ElectricRange.Batteries.BatteryB"),
         ]
-        
+
         self.battery_dropdown = widgets.Dropdown(
             options=self.batteries,
-            description='Battery:',
+            description="Battery:",
         )
 
         self.parameter_input = widgets.BoundedFloatText(
@@ -36,18 +43,20 @@ class VoilaGUI:
             max=4000,
             step=50,
             description="Vehicle Mass [kg]:",
-            disabled=False,   
+            disabled=False,
         )
         self.parameter_input.key = "chassis.vehicle_mass"
-        self.parameter_input.style.description_width = 'auto'
+        self.parameter_input.style.description_width = "auto"
 
-        self.button = widgets.Button(description='Simulate')
+        self.button = widgets.Button(description="Simulate")
 
         self.widget_list = [self.battery_dropdown, self.parameter_input, self.button]
-        self.hbox_layout = widgets.Layout(display='flex',
-                                           flex_flow='row',
-                                           justify_content='space-between',
-                                           width='100%')
+        self.hbox_layout = widgets.Layout(
+            display="flex",
+            flex_flow="row",
+            justify_content="space-between",
+            width="100%",
+        )
         self.hbox = widgets.HBox(self.widget_list, layout=self.hbox_layout)
         self.plot_output = widgets.Output()
 
@@ -58,22 +67,26 @@ class VoilaGUI:
 
     def _display_widgets(self, widgets):
         for w in widgets:
-            display(w)
+            display(w)  # noqa: F821
 
     def _get_battery_redeclare_string(self):
         return f"(redeclare replaceable {self.battery_dropdown.value} batteryPack)"
-    
+
     def _read_parameter_values(self):
         return {self.parameter_input.key: self.parameter_input.value}
 
     def _get_current_case_label(self):
         return f"{self.battery_dropdown.label}, Mass: {self.parameter_input.value}"
-    
+
     def _get_experiment_definition(self):
         redeclare_string = self._get_battery_redeclare_string()
-        model_with_redeclares = self.workspace.get_model(self.model.name + redeclare_string)
+        model_with_redeclare = self.workspace.get_model(
+            self.model.name + redeclare_string
+        )
         modifiers = self._read_parameter_values()
-        experiment_definition_base = model_with_redeclares.new_experiment_definition(self.dynamic.with_parameters(start_time=0, final_time=36000))
+        experiment_definition_base = model_with_redeclare.new_experiment_definition(
+            self.dynamic.with_parameters(start_time=0, final_time=36000)
+        )
         experiment_definition = experiment_definition_base.with_modifiers(modifiers)
         return experiment_definition
 
@@ -92,7 +105,7 @@ class VoilaGUI:
 
         experiment = operation.data()
         return experiment
-    
+
     def _on_simulate(self, button):
         case_name = self._get_current_case_label()
         experiment = self._run_experiment()
@@ -100,13 +113,20 @@ class VoilaGUI:
         res = case.get_trajectories()
         res_variable_names = ["time", case_name]
         res_variable_keys = ["time", "batteryPack.summary.SoC"]
-        data = {name: res[key] for name, key in zip(res_variable_names, res_variable_keys)}
+        data = {
+            name: res[key] for name, key in zip(res_variable_names, res_variable_keys)
+        }
         self._add_trace_to_plot(data, x="time", y=case_name)
 
     def _init_plot(self):
         fig = go.Figure()
-        fig.update_layout(xaxis_title='Time [s]', yaxis_title='SOC []', title='Battery SOC', showlegend=True)
-        
+        fig.update_layout(
+            xaxis_title="Time [s]",
+            yaxis_title="SOC []",
+            title="Battery SOC",
+            showlegend=True,
+        )
+
         with self.plot_output:
             self.plot_output.clear_output(wait=True)
             fig.show()
@@ -114,11 +134,7 @@ class VoilaGUI:
         return fig
 
     def _add_trace_to_plot(self, data, x, y):
-        df = pd.DataFrame(data)
-        self.fig.add_trace(go.Scatter(x=data[x], y=data[y],
-                        mode='lines',
-                        name=y))
+        self.fig.add_trace(go.Scatter(x=data[x], y=data[y], mode="lines", name=y))
         with self.plot_output:
             self.plot_output.clear_output(wait=True)
             self.fig.show()
-        

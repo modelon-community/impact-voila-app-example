@@ -1,0 +1,16 @@
+{
+    "python.languageServer": "Jedi",
+    "[python]": {
+        "editor.formatOnSave": true
+    },
+    "flake8.args": [
+        "--max-line-length=88"
+    ],
+    "cSpell.words": [
+        "hbox",
+        "showlegend",
+        "workspaceid",
+        "xaxis",
+        "yaxis"
+    ]
+}
