@@ -4,5 +4,6 @@
     "category": "Voila Apps",
     "requireWorkspace": true,
     "requireModel": true,
-    "kind": "VOILA"
+    "kind": "VOILA",
+    "defaultPage": "main.ipynb"
 }
