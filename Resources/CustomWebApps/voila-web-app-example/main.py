@@ -37,6 +37,10 @@ class VoilaGUI:
             description="Battery:",
         )
 
+        self.label = widgets.Label(
+            f"Workspace: {self.workspace.name}, Model:{self.model.name}"
+        )
+
         self.parameter_input = widgets.BoundedFloatText(
             value=2000,
             min=1000,
@@ -50,11 +54,11 @@ class VoilaGUI:
 
         self.button = widgets.Button(description="Simulate")
 
-        self.widget_list = [self.battery_dropdown, self.parameter_input, self.button]
+        self.widget_list = [self.label, self.parameter_input, self.button]
         self.hbox_layout = widgets.Layout(
             display="flex",
             flex_flow="row",
-            justify_content="space-between",
+            justify_content="space-around",
             width="100%",
         )
         self.hbox = widgets.HBox(self.widget_list, layout=self.hbox_layout)
