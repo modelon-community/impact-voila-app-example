@@ -5,5 +5,5 @@
     "requireWorkspace": true,
     "requireModel": true,
     "kind": "VOILA",
-    "defaultPage": "main.ipynb"
+    "defaultPage": "app.ipynb"
 }
