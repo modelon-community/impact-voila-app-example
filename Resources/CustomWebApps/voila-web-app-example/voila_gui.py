@@ -26,16 +26,7 @@ class VoilaGUI:
         )
         self.model = self.workspace.get_model(get_query_param("model", default_model))
         self.dynamic = self.workspace.get_custom_function("dynamic")
-
-        self.batteries = [
-            ("Battery A", ".ElectricRange.Batteries.BatteryA"),
-            ("Battery B", ".ElectricRange.Batteries.BatteryB"),
-        ]
-
-        self.battery_dropdown = widgets.Dropdown(
-            options=self.batteries,
-            description="Battery:",
-        )
+        self.experiments = []
 
         self.label = widgets.Label(
             f"Workspace: {self.workspace.name}, Model:{self.model.name}"
@@ -51,61 +42,57 @@ class VoilaGUI:
         )
         self.parameter_input.key = "chassis.vehicle_mass"
         self.parameter_input.style.description_width = "auto"
+        self.simulate_button = widgets.Button(description="Simulate")
 
-        self.button = widgets.Button(description="Simulate")
+        self.variable_selector = widgets.Dropdown()
 
-        self.widget_list = [self.label, self.parameter_input, self.button]
-        self.hbox_layout = widgets.Layout(
+        self.title = self.label
+        self.experiment_controller_widgets = [self.label, self.parameter_input, self.simulate_button]
+        self.experiment_controller_layout = widgets.Layout(
             display="flex",
             flex_flow="row",
             justify_content="space-around",
             width="100%",
         )
-        self.hbox = widgets.HBox(self.widget_list, layout=self.hbox_layout)
+        self.experiment_controller = widgets.HBox(self.experiment_controller_widgets, layout=self.experiment_controller_layout)
+        self.plot_controller = 
         self.plot_output = widgets.Output()
 
     def start(self):
         self._display_widgets([self.hbox, self.plot_output])
         self.fig = self._init_plot()
-        self.button.on_click(self._on_simulate)
+        self.simulate_button.on_click(self._on_simulate)
 
     def _display_widgets(self, widgets):
         for w in widgets:
             display(w)  # noqa: F821
 
-    def _get_battery_redeclare_string(self):
-        return f"(redeclare replaceable {self.battery_dropdown.value} batteryPack)"
-
     def _read_parameter_values(self):
         return {self.parameter_input.key: self.parameter_input.value}
 
     def _get_current_case_label(self):
-        return f"{self.battery_dropdown.label}, Mass: {self.parameter_input.value}"
+        return f"Mass: {self.parameter_input.value}"
 
     def _get_experiment_definition(self):
-        redeclare_string = self._get_battery_redeclare_string()
-        model_with_redeclare = self.workspace.get_model(
-            self.model.name + redeclare_string
-        )
         modifiers = self._read_parameter_values()
-        experiment_definition_base = model_with_redeclare.new_experiment_definition(
+        experiment_definition_base = self.model.new_experiment_definition(
             self.dynamic.with_parameters(start_time=0, final_time=36000)
         )
         experiment_definition = experiment_definition_base.with_modifiers(modifiers)
         return experiment_definition
 
     def _run_experiment(self):
-        self.button.disabled = True
-        button_text_init_value = self.button.description
+        self.simulate_button.disabled = True
+        button_text_init_value = self.simulate_button.description
 
         experiment_definition = self._get_experiment_definition()
         operation = self.workspace.execute(experiment_definition)
 
         while not operation.is_complete():
-            self.button.description = f"{operation.status.value}..."
+            self.simulate_button.description = f"{operation.status.value}..."
             sleep(0.5)
-        self.button.description = button_text_init_value
-        self.button.disabled = False
+        self.simulate_button.description = button_text_init_value
+        self.simulate_button.disabled = False
 
         experiment = operation.data()
         return experiment
@@ -113,6 +100,7 @@ class VoilaGUI:
     def _on_simulate(self, button):
         case_name = self._get_current_case_label()
         experiment = self._run_experiment()
+        self.experiments.append(experiment)
         case = experiment.get_cases()[0]
         res = case.get_trajectories()
         res_variable_names = ["time", case_name]
