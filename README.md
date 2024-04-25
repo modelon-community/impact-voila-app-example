@@ -14,6 +14,7 @@ To get access to the app:
 ## Best Practices
 
 - Version controlling a .ipynb is difficult since cell output is stored in the .ipynb file. Keep the bulk of your code in a separate python file.
+- Alternatively [jupytext](https://jupytext.readthedocs.io/en/latest/) can be used to keep notebook output out of version control.
 
 ## Additional resources
 
