@@ -1,9 +1,9 @@
 {
-    "title": "Voila Starter App",
+    "title": "External dependency example",
     "description": "",
     "category": "Voila Apps",
     "requireWorkspace": true,
-    "requireModel": true,
+    "requireModel": false,
     "kind": "VOILA",
-    "defaultPage": "main.ipynb"
+    "defaultPage": "app.ipynb"
 }

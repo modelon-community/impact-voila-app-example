@@ -1,0 +1,9 @@
+{
+    "title": "Voila basic ui example",
+    "description": "A simple user interface built with Voila",
+    "category": "Voila Apps",
+    "requireWorkspace": true,
+    "requireModel": true,
+    "kind": "VOILA",
+    "defaultPage": "voila-basic-ui.ipynb"
+}
