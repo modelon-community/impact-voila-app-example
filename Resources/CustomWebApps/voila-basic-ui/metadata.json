@@ -1,6 +1,6 @@
 {
-    "title": "Voila Starter App",
-    "description": "",
+    "title": "Voila basic ui example",
+    "description": "A simple user interface built with Voila",
     "category": "Voila Apps",
     "requireWorkspace": true,
     "requireModel": true,
