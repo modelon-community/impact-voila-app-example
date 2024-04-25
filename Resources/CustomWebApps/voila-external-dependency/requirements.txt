@@ -1,0 +1,2 @@
+# Packages should freeze version
+seaborn==0.13.2
