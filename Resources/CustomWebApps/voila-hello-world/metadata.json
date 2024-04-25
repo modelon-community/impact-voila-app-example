@@ -1,0 +1,9 @@
+{
+    "title": "Hello world",
+    "description": "Hello world example for Voila",
+    "category": "Voila Apps",
+    "requireWorkspace": true,
+    "requireModel": false,
+    "kind": "VOILA",
+    "defaultPage": "voila-hello-world.ipynb"
+}
