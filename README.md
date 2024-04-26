@@ -4,12 +4,19 @@ This is a small sample project that serves a demonstrator on how to build a voil
 
 ## Getting started
 
-To get access to the app:
+To get access to the apps:
 
 - Check out the project using the project explorer
 - Open a workspace containing the project
-- From model "ElectricRange.Experiments.Range2" open the app from apps menu
-- Take it for a spin
+- You should now be able
+
+## Examples
+
+There are 3 examples in this repo:
+
+- voila-hello-world
+- voila-basic-gui
+- voila-external-dependency
 
 ## Best Practices
 
