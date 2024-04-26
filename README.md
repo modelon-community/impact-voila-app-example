@@ -14,9 +14,9 @@ To get access to the apps:
 
 There are 3 examples in this repo:
 
-- voila-hello-world
-- voila-basic-gui
-- voila-external-dependency
+- [voila-hello-world](./Resources/CustomWebApps/voila-hello-world/README.md): Simplest possible voila app to get started.
+- [voila-basic-gui](./Resources/CustomWebApps/voila-basic-ui/README.md): Shows how Jupyter Widgets, Plotly and the Modelon Impact Client libraries can be leveraged to create a basic UI.
+- [voila-external-dependency](./Resources/CustomWebApps/voila-external-dependency/README.md): Shows how external dependencies can be added to an application.
 
 ## Best Practices
 

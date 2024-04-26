@@ -1,8 +1,10 @@
+# voila-external-dependency
+
 ## Usage
 
 This app shows how to add an external dependency. 
 
-From this directory we need to run:
+From this directory we can run (or from the notebook itself):
 
 ```sh
 make install
