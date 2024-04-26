@@ -8,7 +8,7 @@ To get access to the apps:
 
 - Check out the project using the project explorer
 - Open a workspace containing the project
-- You should now be able
+- You should now be able to access all apps from the apps menu (some of them requires having a model selected).
 
 ## Examples
 
