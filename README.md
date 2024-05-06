@@ -12,11 +12,12 @@ To get access to the apps:
 
 ## Examples
 
-There are 3 examples in this repo:
+There are 4 examples in this repo:
 
 - [voila-hello-world](./Resources/CustomWebApps/voila-hello-world/): Simplest possible voila app to get started.
 - [voila-basic-gui](./Resources/CustomWebApps/voila-basic-ui/): Shows how Jupyter Widgets, Plotly and the Modelon Impact Client libraries can be leveraged to create a basic UI.
 - [voila-external-dependency](./Resources/CustomWebApps/voila-external-dependency/): Shows how external dependencies can be added to an application.
+- [voila-custom-experiment-gui](./Resources/CustomWebApps/voila-custom-experiment-gui/): A custom user interface for experiments and analysis (parameter dialog, redeclares, experiment control, comparing results, export, ...).
 
 ## Best Practices
 

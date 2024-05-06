@@ -1,0 +1,9 @@
+{
+    "title": "Custom experiment GUI",
+    "description": "A custom user interface for experiments and analysis (parameter dialog, redeclares, experiment control, comparing results, export, ...)",
+    "category": "Voila Apps",
+    "requireWorkspace": true,
+    "requireModel": true,
+    "kind": "VOILA",
+    "defaultPage": "main.ipynb"
+}
