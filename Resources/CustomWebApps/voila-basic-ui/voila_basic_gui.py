@@ -16,8 +16,8 @@ def get_query_param(param, fallback):
 
 
 # Set default workspace and model (mainly for development purposes)
-default_workspace = "impactvoilaappexample"
-default_model = "ElectricRange.Experiments.Range2"
+default_workspace = "custom-app-demo"
+default_model = "Modelica.Blocks.Examples.PID_Controller"
 
 
 class VoilaGUI:
@@ -142,7 +142,6 @@ class VoilaGUI:
     def _on_parameter_select(self, change):
         baseline_experiment = self._get_baseline_experiment()
         res = baseline_experiment.get_cases()[0].get_trajectories()
-        print(change)
         default_value = res[change.get("new", {}).get("value")][0]
         if default_value:
             self.parameter_input.value = default_value
@@ -157,7 +156,11 @@ class VoilaGUI:
             if e.get_class_name() == self.model.name and e.is_successful():
                 return e
 
-        return None
+        model = self.workspace.get_model(self.model.name)
+        dynamic = self.workspace.get_custom_function("dynamic")
+        experiment_definition = model.new_experiment_definition(dynamic)
+        experiment = self.workspace.execute(experiment_definition).wait()
+        return experiment
 
     def _on_simulate(self, button):
         experiment_label = self._get_current_experiment_label()
