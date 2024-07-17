@@ -5,5 +5,5 @@
     "requireWorkspace": true,
     "requireModel": false,
     "kind": "VOILA",
-    "defaultPage": "app.ipynb"
+    "defaultPage": "voila-external-dependency.ipynb"
 }

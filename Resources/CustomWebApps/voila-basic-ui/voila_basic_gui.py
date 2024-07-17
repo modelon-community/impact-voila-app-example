@@ -30,7 +30,7 @@ class VoilaGUI:
             display="flex", width="80px", justify_content="flex-end"
         )
         self.workspace = self.client.get_workspace(
-            get_query_param("workspaceid", default_workspace)
+            get_query_param("workspaceId", default_workspace)
         )
         self.workspace_label_widget = widgets.HBox(
             [
