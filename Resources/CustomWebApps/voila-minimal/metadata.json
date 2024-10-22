@@ -1,0 +1,9 @@
+{
+    "title": "Voila minimal",
+    "description": "A minimal user interface with Jupyter widgets",
+    "category": "Voila Apps",
+    "requireModel": true,
+    "appModeEnabled": true,
+    "kind": "VOILA",
+    "defaultPage": "voila-minimal.ipynb"
+}
