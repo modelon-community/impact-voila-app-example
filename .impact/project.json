@@ -3,16 +3,16 @@
   "format": "1.0.0",
   "dependencies": [
     {
-      "name": "Electrification",
-      "versionSpecifier": "1.11.0+build.54"
-    },
-    {
       "name": "Modelica",
       "versionSpecifier": "4.0.0"
     },
     {
+      "name": "Electrification",
+      "versionSpecifier": "2.0.0+build.21"
+    },
+    {
       "name": "Modelon",
-      "versionSpecifier": "4.4.0+build.50"
+      "versionSpecifier": "5.0.0+build.23"
     }
   ],
   "content": [
